@@ -31,6 +31,13 @@ namespace CinemAPI.Data.Implementation
                                              x.StartDate > now);
         }
 
+        public int GetAvailableSeatsCount(long projectionId)
+        {
+            Projection projection = db.Projections.FirstOrDefault(proj => proj.Id == projectionId);
+
+            return projection.AvailableSeatsCount;
+        }
+
         public void Insert(IProjectionCreation proj)
         {
             Projection newProj = new Projection(proj.MovieId, proj.RoomId, proj.StartDate, proj.AvailableSeatsCount);

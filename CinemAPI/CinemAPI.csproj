@@ -133,6 +133,10 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CinemAPI.Data.EF\CinemAPI.Data.EF.csproj">
+      <Project>{C589E68E-1612-44B0-BFAF-180347B4C8C1}</Project>
+      <Name>CinemAPI.Data.EF</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CinemAPI.Data\CinemAPI.Data.Contracts.csproj">
       <Project>{b591e11a-df58-4ddb-8b92-d3da896fccf5}</Project>
       <Name>CinemAPI.Data.Contracts</Name>

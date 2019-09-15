@@ -11,5 +11,7 @@ namespace CinemAPI.Data
         void Insert(IProjectionCreation projection);
 
         IEnumerable<IProjection> GetActiveProjections(int roomId);
+
+        int GetAvailableSeatsCount(long projectionId);
     }
 }
