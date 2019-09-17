@@ -13,14 +13,14 @@ namespace CinemAPI.Controllers
     public class ProjectionController : ApiController
     {
         private readonly INewProjection newProj;
-        private readonly IProjectionRepository projectionRepository;
-        private readonly CinemaDbContext context;
+        private readonly IProjectionRepository projRepo;
+        private readonly CinemaDbContext db;
 
-        public ProjectionController(INewProjection newProj, IProjectionRepository projectionRepository, CinemaDbContext context)
+        public ProjectionController(INewProjection newProj, IProjectionRepository projRepo, CinemaDbContext db)
         {
             this.newProj = newProj;
-            this.projectionRepository = projectionRepository;
-            this.context = context;
+            this.projRepo = projRepo;
+            this.db = db;
         }
 
         [HttpPost]
@@ -42,12 +42,12 @@ namespace CinemAPI.Controllers
         [Route("api/projection/seats/{id}")]
         public IHttpActionResult Seats(long id)
         {
-            Projection projection = context.Projections.FirstOrDefault(proj => proj.Id == id);
+            Projection projection = db.Projections.FirstOrDefault(proj => proj.Id == id);
 
             if (projection.StartDate > DateTime.Now)
             {
-                projectionRepository.GetAvailableSeatsCount(id);
-                return Ok();
+                int availableSeatsCount = projRepo.GetAvailableSeatsCount(id);
+                return Ok(availableSeatsCount);
             }
             else
             {

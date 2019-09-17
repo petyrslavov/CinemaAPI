@@ -3,6 +3,7 @@ using CinemAPI.Models;
 using CinemAPI.Models.Contracts.Projection;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 
 namespace CinemAPI.Data.Implementation
@@ -36,6 +37,15 @@ namespace CinemAPI.Data.Implementation
             Projection projection = db.Projections.FirstOrDefault(proj => proj.Id == projectionId);
 
             return projection.AvailableSeatsCount;
+        }
+
+        public Projection GetById(long projectionId)
+        {
+            return db.Projections
+                .Include(m => m.Movie)
+                .Include(r => r.Room)
+                .Include("Room.Cinema")
+                .FirstOrDefault(proj => proj.Id == projectionId);
         }
 
         public void Insert(IProjectionCreation proj)

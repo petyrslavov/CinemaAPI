@@ -2,6 +2,7 @@
 {
     public class NewProjectionSummary
     {
+        //TODO Refactor reusable code
         public NewProjectionSummary(bool isCreated)
         {
             this.IsCreated = isCreated;
@@ -16,5 +17,6 @@
         public string Message { get; set; }
 
         public bool IsCreated { get; set; }
+
     }
 }

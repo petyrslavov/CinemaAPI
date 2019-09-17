@@ -1,4 +1,5 @@
-﻿using CinemAPI.Models.Contracts.Projection;
+﻿using CinemAPI.Models;
+using CinemAPI.Models.Contracts.Projection;
 using System;
 using System.Collections.Generic;
 
@@ -13,5 +14,7 @@ namespace CinemAPI.Data
         IEnumerable<IProjection> GetActiveProjections(int roomId);
 
         int GetAvailableSeatsCount(long projectionId);
+
+        Projection GetById(long projectionId);
     }
 }
