@@ -16,6 +16,8 @@ namespace CinemAPI.Data.EF.ModelConfigurations
             projectionModel.Property(model => model.ProjectionStartDate).IsRequired();
             projectionModel.Property(model => model.Row).IsRequired();
             projectionModel.Property(model => model.Column).IsRequired();
+            projectionModel.Property(model => model.ProjectionId).IsRequired();
+
         }
     }
 }

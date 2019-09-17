@@ -16,5 +16,9 @@ namespace CinemAPI.Data
         int GetAvailableSeatsCount(long projectionId);
 
         Projection GetById(long projectionId);
+
+        void DecreaseSeatsCount(long projectionId);
+
+        void IncreaseSeatsCount(long projectionId);
     }
 }

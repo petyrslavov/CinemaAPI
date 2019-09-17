@@ -14,6 +14,9 @@ namespace CinemAPI
             Container container = new Container();
             container.Options.DefaultScopedLifestyle = new WebRequestLifestyle();
 
+            GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings
+    .ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+
             IPackage[] packages = new IPackage[]
             {
                 new DataPackage(),

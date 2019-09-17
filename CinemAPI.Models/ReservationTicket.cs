@@ -14,7 +14,7 @@ namespace CinemAPI.Models
 
         }
 
-        public ReservationTicket(DateTime projectionStartDate, string movie, string cinema, int room, int row, int column)
+        public ReservationTicket(DateTime projectionStartDate, string movie, string cinema, int room, int row, int column, long projectionId)
         {
             this.ProjectionStartDate = projectionStartDate;
             this.Movie = movie;
@@ -22,6 +22,7 @@ namespace CinemAPI.Models
             this.Room = room;
             this.Row = row;
             this.Column = column;
+            this.ProjectionId = projectionId;
         }
 
         public int Id { get; set; }
@@ -37,5 +38,7 @@ namespace CinemAPI.Models
         public int Row { get; set; }
 
         public int Column { get; set; }
+
+        public long ProjectionId { get; set; }
     }
 }

@@ -12,10 +12,35 @@ namespace CinemAPI.Data.Implementation
     public class ReservationTicketRepository : IReservationTicketRepository
     {
         private readonly CinemaDbContext db;
+        private readonly IProjectionRepository projRepo;
 
-        public ReservationTicketRepository(CinemaDbContext db)
+        public ReservationTicketRepository(CinemaDbContext db, IProjectionRepository projRepo)
         {
             this.db = db;
+            this.projRepo = projRepo;
+        }
+
+        public void CancelExpiredReservations(IEnumerable<IReservationTicket> reservations)
+        {
+            DateTime currentDate = DateTime.UtcNow;
+
+            foreach (var reservation in reservations)
+            {
+                TimeSpan ts = reservation.ProjectionStartDate - currentDate;
+
+                if (ts.TotalMinutes < 10)
+                {
+                    this.db.ReservationTickets.Remove(reservation as ReservationTicket);
+                    this.db.SaveChanges();
+
+                    projRepo.IncreaseSeatsCount(reservation.ProjectionId);
+                }
+            }
+        }
+
+        public IEnumerable<IReservationTicket> GetAllReservations()
+        {
+            return this.db.ReservationTickets.ToList();
         }
 
         public IReservationTicket GetByRowAndColumn(int row, int column)
@@ -27,7 +52,7 @@ namespace CinemAPI.Data.Implementation
 
         public IReservationTicket Insert(IReservationTicketCreation ticket)
         {
-            ReservationTicket newTicket = new ReservationTicket(ticket.ProjectionStartDate, ticket.Movie, ticket.Cinema, ticket.Room, ticket.Row, ticket.Column);
+            ReservationTicket newTicket = new ReservationTicket(ticket.ProjectionStartDate, ticket.Movie, ticket.Cinema, ticket.Room, ticket.Row, ticket.Column, ticket.ProjectionId);
 
             db.ReservationTickets.Add(newTicket);
             db.SaveChanges();

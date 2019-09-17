@@ -10,10 +10,12 @@ namespace CinemAPI.Domain.NewReservationTicket
     public class NewReservationTicketCreation : INewReservationTicket
     {
         private readonly IReservationTicketRepository ticketRepo;
+        private readonly IProjectionRepository projRepo;
 
-        public NewReservationTicketCreation(IReservationTicketRepository ticketRepo)
+        public NewReservationTicketCreation(IReservationTicketRepository ticketRepo, IProjectionRepository projRepo)
         {
             this.ticketRepo = ticketRepo;
+            this.projRepo = projRepo;
         }
 
         public NewReservationTicketSummary New(IReservationTicketCreation ticket)
@@ -38,7 +40,14 @@ namespace CinemAPI.Domain.NewReservationTicket
                 return new NewReservationTicketSummary(false, "The seats are already reserved");
             }
 
-            ticketRepo.Insert(new ReservationTicket(ticket.ProjectionStartDate, ticket.Movie, ticket.Cinema, ticket.Room, ticket.Row, ticket.Column));
+            var projection = projRepo.GetById(ticket.ProjectionId);
+
+            if (ticket.Row > projection.Room.Rows || ticket.Column > projection.Room.SeatsPerRow)
+            {
+                return new NewReservationTicketSummary(false, "The seats does not exist in this room");
+            }
+
+            ticketRepo.Insert(new ReservationTicket(ticket.ProjectionStartDate, ticket.Movie, ticket.Cinema, ticket.Room, ticket.Row, ticket.Column, ticket.ProjectionId));
 
             return new NewReservationTicketSummary(true);
         }

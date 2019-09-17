@@ -19,17 +19,15 @@ namespace CinemAPI.Controllers
         private readonly IReservationTicketRepository ticketRepo;
         private readonly INewReservationTicket newTicket;
         private readonly IProjectionRepository projRepo;
-        private readonly CinemaDbContext db;
 
         public TicketController(IReservationTicketRepository ticketRepo,
                                 INewReservationTicket newTicket,
-                                IProjectionRepository projRepo,
-                                CinemaDbContext db)
+                                IProjectionRepository projRepo
+                                )
         {
             this.ticketRepo = ticketRepo;
             this.newTicket = newTicket;
             this.projRepo = projRepo;
-            this.db = db;
         }
 
         [HttpPost]
@@ -38,20 +36,36 @@ namespace CinemAPI.Controllers
         {
             Projection dbProj = projRepo.GetById(id);
 
-            NewReservationTicketSummary summary = newTicket.New(new ReservationTicket(dbProj.StartDate, dbProj.Movie.Name, dbProj.Room.Cinema.Name, dbProj.Room.Number, row, column));
+            NewReservationTicketSummary summary = newTicket.New(new ReservationTicket(dbProj.StartDate, dbProj.Movie.Name, dbProj.Room.Cinema.Name, dbProj.Room.Number, row, column, dbProj.Id));
 
             var ticket = ticketRepo.GetByRowAndColumn(row, column);
 
             if (summary.IsCreated)
             {
-                dbProj.AvailableSeatsCount--;
-                db.SaveChanges();
-               
+                projRepo.DecreaseSeatsCount(id);
+
                 return Ok(ticket);
             }
             else
             {
                 return BadRequest(summary.Message);
+            }
+        }
+
+        [HttpDelete]
+        public IHttpActionResult Index()
+        {
+            IEnumerable<IReservationTicket> reservations = ticketRepo.GetAllReservations();
+
+            if (reservations.Any())
+            {
+                ticketRepo.CancelExpiredReservations(reservations);
+
+                return this.Ok();
+            }
+            else
+            {
+                return this.BadRequest();
             }
         }
     }

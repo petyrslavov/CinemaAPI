@@ -1,4 +1,5 @@
-﻿using CinemAPI.Models.Contracts.ReservationTicket;
+﻿using CinemAPI.Models;
+using CinemAPI.Models.Contracts.ReservationTicket;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,9 @@ namespace CinemAPI.Data
         IReservationTicket Insert(IReservationTicketCreation reservationTicket);
 
         IReservationTicket GetByRowAndColumn(int row, int column);
+
+        IEnumerable<IReservationTicket> GetAllReservations();
+
+        void CancelExpiredReservations(IEnumerable<IReservationTicket> reservations);
     }
 }

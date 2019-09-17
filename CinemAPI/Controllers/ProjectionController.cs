@@ -51,7 +51,7 @@ namespace CinemAPI.Controllers
             }
             else
             {
-                return BadRequest("Projection is finished or alredy started");
+                return BadRequest("Projection is finished or already started");
             }
         }
     }
