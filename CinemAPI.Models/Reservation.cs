@@ -1,20 +1,16 @@
-﻿using CinemAPI.Models.Contracts.ReservationTicket;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using CinemAPI.Models.Contracts.Reservation;
 
 namespace CinemAPI.Models
 {
-    public class ReservationTicket: IReservationTicket, IReservationTicketCreation
+    public class Reservation: IReservation, IReservationCreation
     {
-        public ReservationTicket()
+        public Reservation()
         {
 
         }
 
-        public ReservationTicket(DateTime projectionStartDate, string movie, string cinema, int room, int row, int column, long projectionId)
+        public Reservation(DateTime projectionStartDate, string movie, string cinema, int room, int row, int column, long projectionId)
         {
             this.ProjectionStartDate = projectionStartDate;
             this.Movie = movie;

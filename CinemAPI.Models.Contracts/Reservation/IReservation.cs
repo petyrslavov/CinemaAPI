@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CinemAPI.Models.Contracts.ReservationTicket
+namespace CinemAPI.Models.Contracts.Reservation
 {
-    public interface IReservationTicketCreation
+    public interface IReservation
     {
         int Id { get; }
 

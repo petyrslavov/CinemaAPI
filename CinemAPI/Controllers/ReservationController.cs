@@ -3,7 +3,7 @@ using CinemAPI.Data.EF;
 using CinemAPI.Domain.Contracts;
 using CinemAPI.Domain.Contracts.Models;
 using CinemAPI.Models;
-using CinemAPI.Models.Contracts.ReservationTicket;
+using CinemAPI.Models.Contracts.Reservation;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -14,37 +14,37 @@ using System.Web.Http;
 
 namespace CinemAPI.Controllers
 {
-    public class TicketController : ApiController
+    public class ReservationController : ApiController
     {
-        private readonly IReservationTicketRepository ticketRepo;
-        private readonly INewReservationTicket newTicket;
+        private readonly IReservationRepository reserveRepo;
+        private readonly INewReservation newReserservation;
         private readonly IProjectionRepository projRepo;
 
-        public TicketController(IReservationTicketRepository ticketRepo,
-                                INewReservationTicket newTicket,
+        public ReservationController(IReservationRepository reserveRepo,
+                                INewReservation newReservation,
                                 IProjectionRepository projRepo
                                 )
         {
-            this.ticketRepo = ticketRepo;
-            this.newTicket = newTicket;
+            this.reserveRepo = reserveRepo;
+            this.newReserservation = newReservation;
             this.projRepo = projRepo;
         }
 
         [HttpPost]
-        [Route("api/ticket/{id}/{row}/{column}")]
-        public IHttpActionResult Ticket(int id, int row, int column)
+        [Route("api/reservation/{id}/{row}/{column}")]
+        public IHttpActionResult Reservation(int id, int row, int column)
         {
             Projection dbProj = projRepo.GetById(id);
 
-            NewReservationTicketSummary summary = newTicket.New(new ReservationTicket(dbProj.StartDate, dbProj.Movie.Name, dbProj.Room.Cinema.Name, dbProj.Room.Number, row, column, dbProj.Id));
+            NewReservationSummary summary = newReserservation.New(new Reservation(dbProj.StartDate, dbProj.Movie.Name, dbProj.Room.Cinema.Name, dbProj.Room.Number, row, column, dbProj.Id));
 
-            var ticket = ticketRepo.GetByRowAndColumn(row, column);
+            var reservation = reserveRepo.Get(row, column, id);
 
             if (summary.IsCreated)
             {
                 projRepo.DecreaseSeatsCount(id);
 
-                return Ok(ticket);
+                return Ok(reservation);
             }
             else
             {
@@ -55,11 +55,11 @@ namespace CinemAPI.Controllers
         [HttpDelete]
         public IHttpActionResult Index()
         {
-            IEnumerable<IReservationTicket> reservations = ticketRepo.GetAllReservations();
+            IEnumerable<IReservation> reservations = reserveRepo.GetAllReservations();
 
             if (reservations.Any())
             {
-                ticketRepo.CancelExpiredReservations(reservations);
+                reserveRepo.CancelExpiredReservations(reservations);
 
                 return this.Ok();
             }

@@ -46,7 +46,11 @@
     <Compile Include="NewProjection\NewProjectionNextOverlapValidation.cs" />
     <Compile Include="NewProjection\NewProjectionPreviousOverlapValidation.cs" />
     <Compile Include="NewProjection\NewProjectionUniqueValidation.cs" />
-    <Compile Include="NewReservationTicket\NewReservationTicketCreation.cs" />
+    <Compile Include="NewReservation\NewReservationCreation.cs" />
+    <Compile Include="NewReservation\NewReservationFinishedProjectionValidation.cs" />
+    <Compile Include="NewReservation\NewReservationNotExistingSeatsValidation.cs" />
+    <Compile Include="NewReservation\NewReservationReservedSeatsValidation.cs" />
+    <Compile Include="NewReservation\NewReservationStartedProjectionValidation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
