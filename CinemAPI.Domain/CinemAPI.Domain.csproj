@@ -54,6 +54,7 @@
     <Compile Include="NewReservedTicket\NewTicketBuySeatsWithReservationValidation.cs" />
     <Compile Include="NewReservedTicket\NewTicketBuyWithSameReservationKeyValidation.cs" />
     <Compile Include="NewReservedTicket\NewReservedTicketCreation.cs" />
+    <Compile Include="NewReservedTicket\NewTicketWithReservatio10MinBeforeProjStartValidation.cs" />
     <Compile Include="NewTicket\NewTicketReservedSeatsValidation.cs" />
     <Compile Include="NewTicket\NewTicketBoughtSeatsValidation.cs" />
     <Compile Include="NewTicket\NewTicketStartedProjectionValidation.cs" />

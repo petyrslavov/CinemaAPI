@@ -3,6 +3,7 @@ using CinemAPI.Data.EF;
 using CinemAPI.Domain.Contracts;
 using CinemAPI.Domain.Contracts.Models;
 using CinemAPI.Models;
+using CinemAPI.Models.Contracts.Projection;
 using CinemAPI.Models.Input.Projection;
 using System;
 using System.Linq;
@@ -14,13 +15,11 @@ namespace CinemAPI.Controllers
     {
         private readonly INewProjection newProj;
         private readonly IProjectionRepository projRepo;
-        private readonly CinemaDbContext db;
 
-        public ProjectionController(INewProjection newProj, IProjectionRepository projRepo, CinemaDbContext db)
+        public ProjectionController(INewProjection newProj, IProjectionRepository projRepo)
         {
             this.newProj = newProj;
             this.projRepo = projRepo;
-            this.db = db;
         }
 
         [HttpPost]
@@ -42,7 +41,7 @@ namespace CinemAPI.Controllers
         [Route("api/projection/seats/{id}")]
         public IHttpActionResult Seats(long id)
         {
-            Projection projection = db.Projections.FirstOrDefault(proj => proj.Id == id);
+            IProjection projection = projRepo.GetById(id);
 
             if (projection.StartDate > DateTime.Now)
             {

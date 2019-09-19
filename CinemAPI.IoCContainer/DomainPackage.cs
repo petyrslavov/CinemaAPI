@@ -35,6 +35,7 @@ namespace CinemAPI.IoCContainer
             container.Register<INewReservedTicket, NewReservedTicketCreation>();
             container.RegisterDecorator<INewReservedTicket, NewTicketBuySeatsWithReservationValidation>();
             container.RegisterDecorator<INewReservedTicket, NewTicketBuyWithSameReservationKeyValidation>();
+            container.RegisterDecorator<INewReservedTicket, NewTicketWithReservatio10MinBeforeProjStartValidation>();
         }
     }
 }
