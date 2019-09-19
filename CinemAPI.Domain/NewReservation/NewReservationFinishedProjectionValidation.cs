@@ -2,6 +2,7 @@
 using CinemAPI.Domain.Contracts.Models;
 using CinemAPI.Models.Contracts.Reservation;
 using System;
+using System.Threading.Tasks;
 
 namespace CinemAPI.Domain.NewReservation
 {
@@ -14,7 +15,7 @@ namespace CinemAPI.Domain.NewReservation
             this.newReservation = newReservation;
         }
 
-        public NewReservationSummary New(IReservationCreation reservation)
+        public async Task<NewReservationSummary> New(IReservationCreation reservation)
         {
             DateTime currentDate = DateTime.UtcNow;
 
@@ -23,7 +24,7 @@ namespace CinemAPI.Domain.NewReservation
                 return new NewReservationSummary(false, "Cannot reserve seats for finished projection");
             }
 
-            return newReservation.New(reservation);
+            return await newReservation.New(reservation);
         }
     }
 }

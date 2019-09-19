@@ -2,6 +2,7 @@
 using CinemAPI.Models.Contracts.Projection;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CinemAPI.Data
 {
@@ -17,8 +18,8 @@ namespace CinemAPI.Data
 
         Projection GetById(long projectionId);
 
-        void DecreaseSeatsCount(long projectionId);
+        Task DecreaseSeatsCount(long projectionId);
 
-        void IncreaseSeatsCount(long projectionId);
+        Task IncreaseSeatsCount(long projectionId);
     }
 }

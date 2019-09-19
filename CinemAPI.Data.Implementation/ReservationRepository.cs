@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ namespace CinemAPI.Data.Implementation
             this.projRepo = projRepo;
         }
 
-        public void CancelExpiredReservations(IEnumerable<IReservation> reservations)
+        public async Task CancelExpiredReservations(IEnumerable<IReservation> reservations)
         {
             DateTime currentDate = DateTime.UtcNow;
 
@@ -31,33 +32,38 @@ namespace CinemAPI.Data.Implementation
                 if (ts.TotalMinutes < 10)
                 {
                     this.db.Reservations.Remove(reservation as Reservation);
-                    this.db.SaveChanges();
+                    await this.db.SaveChangesAsync();
 
-                    projRepo.IncreaseSeatsCount(reservation.ProjectionId);
+                    await projRepo.IncreaseSeatsCount(reservation.ProjectionId);
                 }
             }
         }
 
-        public IEnumerable<IReservation> GetAllReservations()
+        public async Task<IEnumerable<IReservation>> GetAllReservations()
         {
-            return this.db.Reservations.ToList();
+            return await this.db.Reservations.ToListAsync();
         }
 
-        public IReservation Get(int row, int column, long projectionId)
+        public async Task<IReservation> Get(int row, int column, long projectionId)
         {
-            return this.db.Reservations
+            return await this.db.Reservations
                 .Where(x => x.Row == row && x.Column == column && x.ProjectionId == projectionId)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
         }
 
-        public IReservation Insert(IReservationCreation reservation)
+        public async Task<IReservation> Insert(IReservationCreation reservation)
         {
             Reservation newReservation = new Reservation(reservation.ProjectionStartDate, reservation.Movie, reservation.Cinema, reservation.Room, reservation.Row, reservation.Column, reservation.ProjectionId);
 
             db.Reservations.Add(newReservation);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
 
             return newReservation;
+        }
+
+        public IReservation GetById(int reservationId)
+        {
+            return this.db.Reservations.FirstOrDefault(x => x.Id == reservationId);
         }
     }
 }

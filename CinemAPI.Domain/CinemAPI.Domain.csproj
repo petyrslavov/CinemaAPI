@@ -51,6 +51,14 @@
     <Compile Include="NewReservation\NewReservationNotExistingSeatsValidation.cs" />
     <Compile Include="NewReservation\NewReservationReservedSeatsValidation.cs" />
     <Compile Include="NewReservation\NewReservationStartedProjectionValidation.cs" />
+    <Compile Include="NewReservedTicket\NewTicketBuySeatsWithReservationValidation.cs" />
+    <Compile Include="NewReservedTicket\NewTicketBuyWithSameReservationKeyValidation.cs" />
+    <Compile Include="NewReservedTicket\NewReservedTicketCreation.cs" />
+    <Compile Include="NewTicket\NewTicketReservedSeatsValidation.cs" />
+    <Compile Include="NewTicket\NewTicketBoughtSeatsValidation.cs" />
+    <Compile Include="NewTicket\NewTicketStartedProjectionValidation.cs" />
+    <Compile Include="NewTicket\NewTicketFinishedProjectionValidation.cs" />
+    <Compile Include="NewTicket\NewTicketCreation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -71,5 +79,6 @@
       <Name>CinemAPI.Models</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

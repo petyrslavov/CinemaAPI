@@ -10,6 +10,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace CinemAPI.Controllers
@@ -32,17 +33,17 @@ namespace CinemAPI.Controllers
 
         [HttpPost]
         [Route("api/reservation/{id}/{row}/{column}")]
-        public IHttpActionResult Reservation(int id, int row, int column)
+        public async Task<IHttpActionResult> Reservation(int id, int row, int column)
         {
             Projection dbProj = projRepo.GetById(id);
 
-            NewReservationSummary summary = newReserservation.New(new Reservation(dbProj.StartDate, dbProj.Movie.Name, dbProj.Room.Cinema.Name, dbProj.Room.Number, row, column, dbProj.Id));
+            NewReservationSummary summary = await newReserservation.New(new Reservation(dbProj.StartDate, dbProj.Movie.Name, dbProj.Room.Cinema.Name, dbProj.Room.Number, row, column, dbProj.Id));
 
-            var reservation = reserveRepo.Get(row, column, id);
+            var reservation = await reserveRepo.Get(row, column, id);
 
             if (summary.IsCreated)
             {
-                projRepo.DecreaseSeatsCount(id);
+                await projRepo.DecreaseSeatsCount(id);
 
                 return Ok(reservation);
             }
@@ -52,21 +53,21 @@ namespace CinemAPI.Controllers
             }
         }
 
-        [HttpDelete]
-        public IHttpActionResult Index()
-        {
-            IEnumerable<IReservation> reservations = reserveRepo.GetAllReservations();
+        //[HttpDelete]
+        //public IHttpActionResult Index()
+        //{
+        //    IEnumerable<IReservation> reservations = reserveRepo.GetAllReservations();
 
-            if (reservations.Any())
-            {
-                reserveRepo.CancelExpiredReservations(reservations);
+        //    if (reservations.Any())
+        //    {
+        //        reserveRepo.CancelExpiredReservations(reservations);
 
-                return this.Ok();
-            }
-            else
-            {
-                return this.BadRequest();
-            }
-        }
+        //        return this.Ok();
+        //    }
+        //    else
+        //    {
+        //        return this.BadRequest();
+        //    }
+        //}
     }
 }

@@ -1,16 +1,19 @@
 ﻿using CinemAPI.Models.Contracts.Reservation;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CinemAPI.Data
 {
     public interface IReservationRepository
     {
-        IReservation Insert(IReservationCreation reservation);
+        Task<IReservation> Insert(IReservationCreation reservation);
 
-        IReservation Get(int row, int column, long projectionId);
+        Task<IReservation> Get(int row, int column, long projectionId);
 
-        IEnumerable<IReservation> GetAllReservations();
+        IReservation GetById(int reservationId);
 
-        void CancelExpiredReservations(IEnumerable<IReservation> reservations);
+        Task<IEnumerable<IReservation>> GetAllReservations();
+
+        Task CancelExpiredReservations(IEnumerable<IReservation> reservations);
     }
 }

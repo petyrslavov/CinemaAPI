@@ -2,6 +2,7 @@
 using CinemAPI.Domain.Contracts;
 using CinemAPI.Domain.Contracts.Models;
 using CinemAPI.Models.Contracts.Reservation;
+using System.Threading.Tasks;
 
 namespace CinemAPI.Domain.NewReservation
 {
@@ -16,7 +17,7 @@ namespace CinemAPI.Domain.NewReservation
             this.projRepo = projRepo;
         }
 
-        public NewReservationSummary New(IReservationCreation reservation)
+        public async Task<NewReservationSummary> New(IReservationCreation reservation)
         {
             var projection = projRepo.GetById(reservation.ProjectionId);
 
@@ -25,7 +26,7 @@ namespace CinemAPI.Domain.NewReservation
                 return new NewReservationSummary(false, "The seats does not exist in this room");
             }
 
-            return newReservation.New(reservation);
+            return await newReservation.New(reservation);
         }
     }
 }

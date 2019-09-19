@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CinemAPI.Data.Implementation
 {
@@ -17,20 +18,20 @@ namespace CinemAPI.Data.Implementation
             this.db = db;
         }
 
-        public void DecreaseSeatsCount(long projectionId)
+        public async Task DecreaseSeatsCount(long projectionId)
         {
-            Projection projection = this.db.Projections.FirstOrDefault(x => x.Id == projectionId);
+            Projection projection = await this.db.Projections.FirstOrDefaultAsync(x => x.Id == projectionId);
 
             projection.AvailableSeatsCount--;
-            this.db.SaveChanges();
+            await this.db.SaveChangesAsync();
         }
 
-        public void IncreaseSeatsCount(long projectionId)
+        public async Task IncreaseSeatsCount(long projectionId)
         {
-            Projection projection = this.db.Projections.FirstOrDefault(x => x.Id == projectionId);
+            Projection projection = await this.db.Projections.FirstOrDefaultAsync(x => x.Id == projectionId);
 
             projection.AvailableSeatsCount++;
-            this.db.SaveChanges();
+            await this.db.SaveChangesAsync();
         }
 
 
