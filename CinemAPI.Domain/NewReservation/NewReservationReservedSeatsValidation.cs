@@ -17,13 +17,13 @@ namespace CinemAPI.Domain.NewReservation
             this.newReservation = newReservation;
         }
 
-        public async Task<NewReservationSummary> New(IReservationCreation reservation)
+        public async Task<NewCreationSummary> New(IReservationCreation reservation)
         {
             IReservation reservationDb = await reserveRepo.Get(reservation.Row, reservation.Column, reservation.ProjectionId);
 
             if (reservationDb != null)
             {
-                return new NewReservationSummary(false, "The seats are already reserved");
+                return new NewCreationSummary(false, "The seats are already reserved");
             }
 
             return await newReservation.New(reservation);

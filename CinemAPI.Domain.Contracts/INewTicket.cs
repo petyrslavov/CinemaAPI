@@ -6,6 +6,6 @@ namespace CinemAPI.Domain.Contracts
 {
     public interface INewTicket
     {
-        Task<NewTicketSummary> New(ITicketCreation ticket);
+        Task<NewCreationSummary> New(ITicketCreation ticket);
     }
 }

@@ -6,6 +6,6 @@ namespace CinemAPI.Domain.Contracts
 {
     public interface INewReservation
     {
-        Task<NewReservationSummary> New(IReservationCreation reservation);
+        Task<NewCreationSummary> New(IReservationCreation reservation);
     }
 }

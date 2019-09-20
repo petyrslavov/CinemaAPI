@@ -2,7 +2,6 @@
 using CinemAPI.Domain.Contracts;
 using CinemAPI.Domain.Contracts.Models;
 using CinemAPI.Models.Contracts.Ticket;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace CinemAPI.Domain.NewReservedTicket
@@ -20,7 +19,7 @@ namespace CinemAPI.Domain.NewReservedTicket
             this.reserveRepo = reserveRepo;
         }
 
-        public async Task<NewReservedTicketSummary> New(ITicketCreation ticket)
+        public async Task<NewCreationSummary> New(ITicketCreation ticket)
         {
             var reservations = await reserveRepo.GetAllReservations();
             await reserveRepo.CancelExpiredReservations(reservations);
@@ -29,7 +28,7 @@ namespace CinemAPI.Domain.NewReservedTicket
 
             if (ticketDb != null)
             {
-                return new NewReservedTicketSummary(false, "Cannot by reserved seats twice");
+                return new NewCreationSummary(false, "Cannot by reserved seats twice");
             }
 
             return await newTicket.New(ticket);

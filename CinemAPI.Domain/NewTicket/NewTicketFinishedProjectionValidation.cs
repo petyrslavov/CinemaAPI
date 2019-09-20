@@ -15,13 +15,13 @@ namespace CinemAPI.Domain.NewTicket
             this.newTicket = newTicket;
         }
 
-        public async Task<NewTicketSummary> New(ITicketCreation ticket)
+        public async Task<NewCreationSummary> New(ITicketCreation ticket)
         {
             DateTime currentDate = DateTime.UtcNow;
 
             if (currentDate > ticket.ProjectionStartDate)
             {
-                return new NewTicketSummary(false, "Cannot buy seats for finished projection");
+                return new NewCreationSummary(false, "Cannot buy seats for finished projection");
             }
 
             return await newTicket.New(ticket);

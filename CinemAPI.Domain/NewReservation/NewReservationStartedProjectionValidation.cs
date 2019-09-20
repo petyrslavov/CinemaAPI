@@ -15,14 +15,14 @@ namespace CinemAPI.Domain.NewReservation
             this.newReservation = newReservation;
         }
 
-        public async Task<NewReservationSummary> New(IReservationCreation reservation)
+        public async Task<NewCreationSummary> New(IReservationCreation reservation)
         {
             DateTime currentDate = DateTime.UtcNow;
             TimeSpan ts = reservation.ProjectionStartDate - currentDate;
 
             if (ts.TotalMinutes > 0 && ts.TotalMinutes < 10 )
             {
-                return new NewReservationSummary(false, "Cannot reserve seats for projection starting in less than 10 minutes");
+                return new NewCreationSummary(false, "Cannot reserve seats for projection starting in less than 10 minutes");
             }
 
             return await newReservation.New(reservation);

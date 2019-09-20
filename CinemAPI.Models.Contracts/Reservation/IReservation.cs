@@ -14,9 +14,9 @@ namespace CinemAPI.Models.Contracts.Reservation
 
         int Room { get; }
 
-        int Row { get; }
+        short Row { get; }
 
-        int Column { get; }
+        short Column { get; }
 
         long ProjectionId { get; }
     }

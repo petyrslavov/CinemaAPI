@@ -17,7 +17,7 @@ namespace CinemAPI.Domain.NewReservedTicket
             this.newTicket = newTicket;
         }
 
-        public async Task<NewReservedTicketSummary> New(ITicketCreation ticket)
+        public async Task<NewCreationSummary> New(ITicketCreation ticket)
         {
             var reservations = await reserveRepo.GetAllReservations();
             await reserveRepo.CancelExpiredReservations(reservations);
@@ -26,7 +26,7 @@ namespace CinemAPI.Domain.NewReservedTicket
 
             if (reservationDb == null)
             {
-                return new NewReservedTicketSummary(false, "Cannot buy seats for expired reservation");
+                return new NewCreationSummary(false, "Cannot buy seats for expired reservation");
             }
 
             return await newTicket.New(ticket);

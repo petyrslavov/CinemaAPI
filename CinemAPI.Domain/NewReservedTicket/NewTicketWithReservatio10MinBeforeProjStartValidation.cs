@@ -15,14 +15,14 @@ namespace CinemAPI.Domain.NewReservedTicket
             this.newTicket = newTicket;
         }
 
-        public async Task<NewReservedTicketSummary> New(ITicketCreation ticket)
+        public async Task<NewCreationSummary> New(ITicketCreation ticket)
         {
             DateTime currentDate = DateTime.UtcNow;
             TimeSpan ts = ticket.ProjectionStartDate - currentDate;
 
             if (ts.TotalMinutes > 0 && ts.TotalMinutes < 10)
             {
-                return new NewReservedTicketSummary(false, "Cannot buy seats with reservation for projection starting in less than 10 minutes");
+                return new NewCreationSummary(false, "Cannot buy seats with reservation for projection starting in less than 10 minutes");
             }
 
             return await newTicket.New(ticket);

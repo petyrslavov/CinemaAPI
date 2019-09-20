@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CinemAPI.Models.Contracts.Ticket
 {
@@ -18,9 +14,9 @@ namespace CinemAPI.Models.Contracts.Ticket
 
         int Room { get; }
 
-        int Row { get; }
+        short Row { get; }
 
-        int Column { get; }
+        short Column { get; }
 
         long ProjectionId { get;  }
     }

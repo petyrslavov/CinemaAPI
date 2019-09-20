@@ -22,7 +22,7 @@ namespace CinemAPI.Domain.NewProjection
             this.newProj = newProj;
         }
 
-        public NewProjectionSummary New(IProjectionCreation proj)
+        public NewCreationSummary New(IProjectionCreation proj)
         {
             IEnumerable<IProjection> movieProjectionsInRoom = projectRepo.GetActiveProjections(proj.RoomId);
 
@@ -39,7 +39,7 @@ namespace CinemAPI.Domain.NewProjection
 
                 if (curProjectionEndTime >= nextProjection.StartDate)
                 {
-                    return new NewProjectionSummary(false, $"Projection overlaps with next one: {nextProjectionMovie.Name} at {nextProjection.StartDate}");
+                    return new NewCreationSummary(false, $"Projection overlaps with next one: {nextProjectionMovie.Name} at {nextProjection.StartDate}");
                 }
             }
 

@@ -16,13 +16,13 @@ namespace CinemAPI.Domain.NewProjection
             this.newProj = newProj;
         }
 
-        public NewProjectionSummary New(IProjectionCreation proj)
+        public NewCreationSummary New(IProjectionCreation proj)
         {
             IProjection projection = projectRepo.Get(proj.MovieId, proj.RoomId, proj.StartDate);
 
             if (projection != null)
             {
-                return new NewProjectionSummary(false, "Projection already exists");
+                return new NewCreationSummary(false, "Projection already exists");
             }
 
             return newProj.New(proj);

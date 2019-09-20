@@ -18,13 +18,13 @@ namespace CinemAPI.Domain.NewTicket
             this.newTicket = newTicket;
         }
 
-        public async Task<NewTicketSummary> New(ITicketCreation ticket)
+        public async Task<NewCreationSummary> New(ITicketCreation ticket)
         {
             IReservation reservationDb = await reserveRepo.Get(ticket.Row, ticket.Column, ticket.ProjectionId);
 
             if (reservationDb != null)
             {
-                return new NewTicketSummary(false, "Cannot buy reserved seats");
+                return new NewCreationSummary(false, "Cannot buy reserved seats");
             }
 
             return await newTicket.New(ticket);

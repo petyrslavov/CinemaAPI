@@ -5,6 +5,6 @@ namespace CinemAPI.Domain.Contracts
 {
     public interface INewProjection
     {
-        NewProjectionSummary New(IProjectionCreation projection);
+        NewCreationSummary New(IProjectionCreation projection);
     }
 }

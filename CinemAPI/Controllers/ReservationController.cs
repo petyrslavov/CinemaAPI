@@ -1,15 +1,8 @@
 ﻿using CinemAPI.Data;
-using CinemAPI.Data.EF;
 using CinemAPI.Domain.Contracts;
 using CinemAPI.Domain.Contracts.Models;
 using CinemAPI.Models;
-using CinemAPI.Models.Contracts.Reservation;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+using CinemAPI.Models.Input.Reservation;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -33,17 +26,17 @@ namespace CinemAPI.Controllers
 
         [HttpPost]
         [Route("api/reservation/{id}/{row}/{column}")]
-        public async Task<IHttpActionResult> Reservation(int id, int row, int column)
+        public async Task<IHttpActionResult> Reservation([FromUri]ReservationCreationModel model)
         {
-            Projection dbProj = projRepo.GetById(id);
+            Projection dbProj = projRepo.GetById(model.Id);
 
-            NewReservationSummary summary = await newReserservation.New(new Reservation(dbProj.StartDate, dbProj.Movie.Name, dbProj.Room.Cinema.Name, dbProj.Room.Number, row, column, dbProj.Id));
+            NewCreationSummary summary = await newReserservation.New(new Reservation(dbProj.StartDate, dbProj.Movie.Name, dbProj.Room.Cinema.Name, dbProj.Room.Number, model.Row, model.Column, dbProj.Id));
 
-            var reservation = await reserveRepo.Get(row, column, id);
+            var reservation = await reserveRepo.Get(model.Row, model.Column, model.Id);
 
             if (summary.IsCreated)
             {
-                await projRepo.DecreaseSeatsCount(id);
+                await projRepo.DecreaseSeatsCount(model.Id);
 
                 return Ok(reservation);
             }
@@ -52,22 +45,5 @@ namespace CinemAPI.Controllers
                 return BadRequest(summary.Message);
             }
         }
-
-        //[HttpDelete]
-        //public IHttpActionResult Index()
-        //{
-        //    IEnumerable<IReservation> reservations = reserveRepo.GetAllReservations();
-
-        //    if (reservations.Any())
-        //    {
-        //        reserveRepo.CancelExpiredReservations(reservations);
-
-        //        return this.Ok();
-        //    }
-        //    else
-        //    {
-        //        return this.BadRequest();
-        //    }
-        //}
     }
 }

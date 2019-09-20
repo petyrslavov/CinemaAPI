@@ -16,11 +16,11 @@ namespace CinemAPI.Domain.NewReservation
             this.reserveRepo = reserveRepo;
         }
          
-        public async Task<NewReservationSummary> New(IReservationCreation reservation)
+        public async Task<NewCreationSummary> New(IReservationCreation reservation)
         {
             await reserveRepo.Insert(new Reservation(reservation.ProjectionStartDate, reservation.Movie, reservation.Cinema, reservation.Room, reservation.Row, reservation.Column, reservation.ProjectionId));
 
-            return new NewReservationSummary(true);
+            return new NewCreationSummary(true);
         }
     }
 }

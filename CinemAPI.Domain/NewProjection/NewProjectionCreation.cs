@@ -15,16 +15,16 @@ namespace CinemAPI.Domain
             this.projectionsRepo = projectionsRepo;
         }
 
-        public NewProjectionSummary New(IProjectionCreation projection)
+        public NewCreationSummary New(IProjectionCreation projection)
         {
             if (projection.AvailableSeatsCount < 0)
             {
-                return new NewProjectionSummary(false, "Available seats count cannot be negative number");
+                return new NewCreationSummary(false, "Available seats count cannot be negative number");
             }
 
             projectionsRepo.Insert(new Projection(projection.MovieId, projection.RoomId, projection.StartDate, projection.AvailableSeatsCount));
 
-            return new NewProjectionSummary(true);
+            return new NewCreationSummary(true);
         }
     }
 }

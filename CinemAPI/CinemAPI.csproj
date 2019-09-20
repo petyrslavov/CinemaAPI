@@ -147,7 +147,9 @@
     <Compile Include="Models\Input\Cinema\CinemaCreationModel.cs" />
     <Compile Include="Models\Input\Movie\MovieCreationModel.cs" />
     <Compile Include="Models\Input\Projection\ProjectionCreationModel.cs" />
+    <Compile Include="Models\Input\Reservation\ReservationCreationModel.cs" />
     <Compile Include="Models\Input\Room\RoomCreationModel.cs" />
+    <Compile Include="Models\Input\Ticket\TicketCreationModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

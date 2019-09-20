@@ -16,11 +16,11 @@ namespace CinemAPI.Domain.NewReservedTicket
             this.ticketRepo = ticketRepo;
         }
 
-        public async Task<NewReservedTicketSummary> New(ITicketCreation ticket)
+        public async Task<NewCreationSummary> New(ITicketCreation ticket)
         {
             await ticketRepo.Insert(new Ticket(ticket.ProjectionStartDate, ticket.Movie, ticket.Cinema, ticket.Room, ticket.Row, ticket.Column, ticket.ProjectionId));
 
-            return new NewReservedTicketSummary(true);
+            return new NewCreationSummary(true);
         }
     }
 }

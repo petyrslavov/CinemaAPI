@@ -3,6 +3,7 @@ using CinemAPI.Domain.Contracts;
 using CinemAPI.Domain.Contracts.Models;
 using CinemAPI.Models;
 using CinemAPI.Models.Contracts.Reservation;
+using CinemAPI.Models.Input.Ticket;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -29,17 +30,17 @@ namespace CinemAPI.Controllers
         //Buy Ticket Without Reservation
         [HttpPost]
         [Route("api/ticket/{id}/{row}/{column}")]
-        public async Task<IHttpActionResult> Ticket(int id, int row, int column)
+        public async Task<IHttpActionResult> Ticket([FromUri]TicketCreationModel model)
         {
-            Projection dbProj = projRepo.GetById(id);
+            Projection dbProj = projRepo.GetById(model.Id);
 
-            NewTicketSummary summary = await newTicket.New(new Ticket(dbProj.StartDate, dbProj.Movie.Name, dbProj.Room.Cinema.Name, dbProj.Room.Number, row, column, dbProj.Id));
+            NewCreationSummary summary = await newTicket.New(new Ticket(dbProj.StartDate, dbProj.Movie.Name, dbProj.Room.Cinema.Name, dbProj.Room.Number, model.Row, model.Column, dbProj.Id));
 
-            var ticket = ticketRepo.Get(row, column, id);
+            var ticket = ticketRepo.Get(model.Row, model.Column, model.Id);
 
             if (summary.IsCreated)
             {
-                await projRepo.DecreaseSeatsCount(id);
+                await projRepo.DecreaseSeatsCount(model.Id);
 
                 return Ok(ticket);
             }
@@ -56,7 +57,7 @@ namespace CinemAPI.Controllers
         {
             IReservation reservation = reserveRepo.GetById(id);
 
-            NewReservedTicketSummary summary = await newReservedTicket.New(new Ticket(reservation.ProjectionStartDate, reservation.Movie, reservation.Cinema, reservation.Room, reservation.Row, reservation.Column, reservation.ProjectionId));
+            NewCreationSummary summary = await newReservedTicket.New(new Ticket(reservation.ProjectionStartDate, reservation.Movie, reservation.Cinema, reservation.Room, reservation.Row, reservation.Column, reservation.ProjectionId));
 
             var ticket = ticketRepo.Get(reservation.Row, reservation.Column, reservation.ProjectionId);
 

@@ -17,13 +17,13 @@ namespace CinemAPI.Domain.NewReservation
             this.projRepo = projRepo;
         }
 
-        public async Task<NewReservationSummary> New(IReservationCreation reservation)
+        public async Task<NewCreationSummary> New(IReservationCreation reservation)
         {
             var projection = projRepo.GetById(reservation.ProjectionId);
 
             if (reservation.Row > projection.Room.Rows || reservation.Column > projection.Room.SeatsPerRow)
             {
-                return new NewReservationSummary(false, "The seats does not exist in this room");
+                return new NewCreationSummary(false, "The seats does not exist in this room");
             }
 
             return await newReservation.New(reservation);

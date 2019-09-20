@@ -15,13 +15,13 @@ namespace CinemAPI.Domain.NewReservation
             this.newReservation = newReservation;
         }
 
-        public async Task<NewReservationSummary> New(IReservationCreation reservation)
+        public async Task<NewCreationSummary> New(IReservationCreation reservation)
         {
             DateTime currentDate = DateTime.UtcNow;
 
             if (currentDate > reservation.ProjectionStartDate)
             {
-                return new NewReservationSummary(false, "Cannot reserve seats for finished projection");
+                return new NewCreationSummary(false, "Cannot reserve seats for finished projection");
             }
 
             return await newReservation.New(reservation);

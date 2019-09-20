@@ -17,13 +17,13 @@ namespace CinemAPI.Domain.NewProjection
             this.newProj = newProj;
         }
 
-        public NewProjectionSummary New(IProjectionCreation projection)
+        public NewCreationSummary New(IProjectionCreation projection)
         {
             IMovie movie = movieRepo.GetById(projection.MovieId);
 
             if (movie == null)
             {
-                return new NewProjectionSummary(false, $"Movie with id {projection.MovieId} does not exist");
+                return new NewCreationSummary(false, $"Movie with id {projection.MovieId} does not exist");
             }
 
             return newProj.New(projection);

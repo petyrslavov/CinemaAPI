@@ -44,10 +44,7 @@
     <Compile Include="INewReservation.cs" />
     <Compile Include="INewReservedTicket.cs" />
     <Compile Include="INewTicket.cs" />
-    <Compile Include="Models\NewProjectionSummary.cs" />
-    <Compile Include="Models\NewReservationSummary.cs" />
-    <Compile Include="Models\NewReservedTicketSummary.cs" />
-    <Compile Include="Models\NewTicketSummary.cs" />
+    <Compile Include="Models\NewCreationSummary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
